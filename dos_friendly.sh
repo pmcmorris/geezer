@@ -35,7 +35,7 @@ alias copy='cp'
 alias del='rm -iv'
 alias deltree='rm -R'
 alias dir='dir --color=auto --group-directories-first -Fl'
-alias edit=subl
+alias edit='nano -FLNdmw'
 alias ifconfig=ipconfig
 alias md='mkdir'
 alias more='less'
@@ -44,3 +44,4 @@ alias rd='rmdir'
 alias rename='mv'
 alias type='cat'
 alias xcopy='cp -R'
+
