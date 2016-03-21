@@ -1,7 +1,11 @@
 #!/bin/bash
 
-#
-# This script provides aliases that make a unix system for friendly to windows
+# File: dos_friendly.sh
+# URL: https://github.com/pmcmorris/linux_config/blob/master/dos_friendly.sh
+# License: CC0 - Public Domain - No warranty is offered or implied; use this code at your own risk
+# Author: Patrick McMorris
+
+# This script provides aliases that make a Unix system more friendly to windows
 # users.
 #
 # Rather than change user behavior to suit the host system it is often more
@@ -21,22 +25,22 @@
 #     . ~/dos_friendly.sh
 # fi
 # 
-# Some prefer to avoid editing their ~/.bashrc directly and adding these kinds of
-# things to a ~/.bash_aliases file included from ~/.bashrc
+# Some prefer to avoid editing their ~/.bashrc directly and adding these kinds
+# of things to a ~/.bash_aliases file included from ~/.bashrc
 #
 # A more aggressive approach is for the system administrator to add a reference
-# these aliases from /etc/skel/.bashrc so that new users get the behavior by
-# default. (Note: expert users will have no trouble disabling this if they
-# don't like it.)
+# to these aliases from /etc/skel/.bashrc so that new users get the behavior by
+# default. (Note: expert users will have no trouble disabling this should they
+# dislike it.)
 
 alias cd..='cd ..'
-alias cls=reset
+alias cls='reset'
 alias copy='cp'
 alias del='rm -iv'
 alias deltree='rm -R'
-alias dir='dir --color=auto --group-directories-first -Fl'
+alias dir='ls --color=auto --group-directories-first -Fl'
 alias edit='nano -FLNdmw'
-alias ifconfig=ipconfig
+alias ipconfig='ifconfig'
 alias md='mkdir'
 alias more='less'
 alias move='mv'
