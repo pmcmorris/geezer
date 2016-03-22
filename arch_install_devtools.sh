@@ -35,6 +35,7 @@ scripting_tools="\
 # miscellaneous utilities
 misc_tools="\
 	ctags\
+	git\
 "
 
 # glob together a list of all the required packages
