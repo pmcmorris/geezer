@@ -41,5 +41,5 @@ misc_tools="\
 package_list="$build_tools $native_tools $scripting_tools $misc_tools"
 
 # install all the packages
-pacman -S --needed --noconfirm $(package_list)
+pacman -S --needed --noconfirm $package_list
 
