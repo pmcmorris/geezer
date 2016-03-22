@@ -48,7 +48,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
 	# create a connection profile
 	wifi-menu
-	# attempt to get the name of the new profile (ugly)
+	# attempt to get the name of the new profile (ugly, fails if it already exists or if there are multiple)
 	network_name=`ls /etc/netctl/wlan* | sed "s/\/etc\/netctl\///"`
 	# enable the service to allow it to reconnect after reboots
 	netctl enable $network_name
