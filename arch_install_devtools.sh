@@ -10,31 +10,35 @@
 # this is a good starting point.
 
 # tools for building code
-build_tools=\
+build_tools="\
 	automake\
 	cmake\
+"
 
 # packages for native development
-native_tools=\
+native_tools="\
 	binutils\
 	clang\
 	gcc\
 	llvm\
 	nasm\
+"
 
 # packages for script development
-scripting_tools=\
+scripting_tools="\
 	lua\
 	nodejs\
 	npm\
 	python\
+"
 
 # miscellaneous utilities
-misc_tools=\
+misc_tools="\
 	ctags\
+"
 
 # glob together a list of all the required packages
-package_list = $(build_tools) $(native_tools) $(scripting_tools) $(misc_tools)
+package_list="$build_tools $native_tools $scripting_tools $misc_tools"
 
 # install all the packages
 pacman -S --needed --noconfirm $(package_list)
