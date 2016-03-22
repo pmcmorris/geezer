@@ -17,29 +17,54 @@
 # using Arch is all about customization. This script mainly exists to remind me
 # how I configured my headless Raspberry Pi images.
 
-# download a fresh copy of the master package database
-pacman -Sy
-# upgrade any out-of-date packages
-pacman -Su
+read -p "Update packages? [y/N]" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+	# download a fresh copy of the master package database
+	pacman -Sy
+	# upgrade any out-of-date packages
+	pacman -Su
 
-# add handy utilities
-base_packages="\
-	dos2unix\
-	htop\
-	p7zip\
-	tree\
-	vim\
-"
+	# add handy utilities
+	base_packages="\
+		dos2unix\
+		htop\
+		p7zip\
+		tree\
+		vim\
+	"
 
-pacman -S --needed --noconfirm $base_packages
+	pacman -S --needed --noconfirm $base_packages
 
-# remove any packages which are no longer installed from the cache
-pacman -Sc
+	# remove any packages which are no longer installed from the cache
+	pacman -Sc --noconfirm
+fi
 
-# set the system timezone
-echo Setting timezone to America/Vancouver
-rm -f /etc/localtime
-ln -s /usr/share/zoneinfo/America/Vancouver /etc/localtime
+read -p "Set timezone? [y/N]" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+	# set the system timezone
+	echo Setting timezone to America/Vancouver
+	rm -f /etc/localtime
+	ln -s /usr/share/zoneinfo/America/Vancouver /etc/localtime
+fi
+
+# configure hostname
+read -p "Set hostname? [y/N]" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+	# read a new host name from the user
+	echo -n Current hostname:
+	cat /etc/hostname
+	read -p "New hostname: "
+	# set the host name used on next boot
+	echo $REPLY > /etc/hostname
+	# set the current hostname
+	hostname $REPLY
+fi
 
 # configure Wifi
 read -p "Configure Wifi? [y/N]" -n 1 -r
