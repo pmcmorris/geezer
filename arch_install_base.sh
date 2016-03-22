@@ -23,14 +23,15 @@ pacman -Sy
 pacman -Su
 
 # add handy utilities
-base_packages = \
-	dos2unix \
-	htop \
-	p7zip \
-	tree \
-	vim \
+base_packages="\
+	dos2unix\
+	htop\
+	p7zip\
+	tree\
+	vim\
+"
 
-pacman -S --needed --noconfirm $(base_packages)
+pacman -S --needed --noconfirm $base_packages
 
 # remove any packages which are no longer installed from the cache
 pacman -Sc
@@ -50,7 +51,7 @@ then
 	# attempt to get the name of the new profile (ugly)
 	network_name=`ls /etc/netctl/wlan* | sed "s/\/etc\/netctl\///"`
 	# enable the service to allow it to reconnect after reboots
-	netctl enable $(network_name)
+	netctl enable $network_name
 fi
 
 # reboot after completion
