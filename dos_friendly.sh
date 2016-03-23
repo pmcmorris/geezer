@@ -46,6 +46,8 @@ alias more='less'
 alias move='mv'
 alias rd='rmdir'
 alias rename='mv'
-alias type='cat'
+# This is what the dos users mean, but "type" is a real command that gets used
+# in scripts and remapping it can cause strange errors
+#alias type='cat'
 alias xcopy='cp -R'
 
