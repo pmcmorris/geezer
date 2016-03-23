@@ -46,8 +46,16 @@ alias more='less'
 alias move='mv'
 alias rd='rmdir'
 alias rename='mv'
-# This is what the DOS users mean, but "type" is a real command that gets used
-# in bahs scripts and remapping it can cause strange errors
-#alias type='cat'
 alias xcopy='cp -R'
+
+#
+# Mappings that cause problems - Do not enable
+#
+# These are here mainly to indicate to DOS users what is the corresponding unix
+# command they might use. But enabling these can hide existing shell commands
+# and cause strange errors to occur when running some scripts.
+#
+
+#"type" is a real bash command that would get hidden
+#alias type='cat'
 
