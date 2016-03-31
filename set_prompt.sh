@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Load the git prompt functions if they exist
+# Note: Git no longer provides the prompt functions in the normal bash completion stuff to allow them to lazy
+# load correctly. But this currently loads by default on Ubuntu via /etc/bash_completion.d/git-prompt but on
+# more "stock" installs, the prompt script is expected to be sourced explicitly
+
+# Location on Arch linux
+if [[ -e /usr/share/git/git-prompt.sh ]]; then
+	. /usr/share/git/git-prompt.sh
+fi
+
 # get a colorized version of the git branch name
 function git_branch_colored {
 	# check if git tools are available
