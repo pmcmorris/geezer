@@ -1,17 +1,7 @@
 #!/bin/bash
 
-# Load the git prompt functions if they exist
-# Note: Git no longer provides the prompt functions in the normal bash completion stuff to allow them to lazy
-# load correctly. But this currently loads by default on Ubuntu via /etc/bash_completion.d/git-prompt but on
-# more "stock" installs, the prompt script is expected to be sourced explicitly
-
-# Location on Arch linux
-if [[ -e /usr/share/git/git-prompt.sh ]]; then
-	. /usr/share/git/git-prompt.sh
-fi
-
 # get a colorized version of the git branch name
-function git_branch_colored {
+function __geezer_git_branch_colored {
 	# check if git tools are available
 	if [ "$(type -t __git_ps1)" = "function" ]; then
 		# get the current branch name
@@ -32,7 +22,7 @@ function git_branch_colored {
 }
 
 # check if the current terminal is capable of color output
-function test_terminal_color {
+function __geezer_is_color_terminal {
 	# use tput (if it's executable) to set the foreground color as a test to see whether we're using a color terminal
 	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
 		echo true
@@ -41,10 +31,10 @@ function test_terminal_color {
 	fi
 }
 
-function set_prompt {
+function __geezer_set_prompt {
 
 	# check if the terminal supports color
-	local use_color=$(test_terminal_color)
+	local use_color=$(__geezer_is_color_terminal)
 
 	# check if the git shell functions are available
 	if [ "$(type -t __git_ps1)" = "function" ]; then
@@ -87,7 +77,7 @@ function set_prompt {
 	# Show git branch name
 	if [ $use_git = "true" ]; then
 		if [ $use_color = "true" ]; then
-			PS1="$PS1\$(git_branch_colored)"
+			PS1="$PS1\$(__geezer_git_branch_colored)"
 		else
 			PS1="$PS1\$(__git_ps1)"
 		fi
