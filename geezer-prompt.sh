@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# check if the current terminal is capable of color output
+function __geezer_is_color_terminal {
+	# use tput (if it's executable) to set the foreground color as a test to see whether we're using a color terminal
+	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+		echo true
+	else
+		echo false
+	fi
+}
+
 # get a colorized version of the git branch name
 function __geezer_git_branch_colored {
 	# check if git tools are available
@@ -21,16 +31,7 @@ function __geezer_git_branch_colored {
 	fi
 }
 
-# check if the current terminal is capable of color output
-function __geezer_is_color_terminal {
-	# use tput (if it's executable) to set the foreground color as a test to see whether we're using a color terminal
-	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-		echo true
-	else
-		echo false
-	fi
-}
-
+# set the prompt the way geezer likes it
 function __geezer_set_prompt {
 
 	# check if the terminal supports color
