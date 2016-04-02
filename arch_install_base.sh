@@ -17,34 +17,54 @@
 # using Arch is all about customization. This script mainly exists to remind me
 # how I configured my headless Raspberry Pi images.
 
-read -p "Update packages? [y/N]" -n 1 -r
+geezer_install_dir=/usr/share/geezer
+geezer_base_packages="\
+	dos2unix\
+	htop\
+	p7zip\
+	sudo\
+	tree\
+	vim\
+"
+
+# Install geezer configuration files
+read -p "Install Geezer files? [Y/n]" -n 1 -r
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-	# download a fresh copy of the master package database
+if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+	if [[ -e $geezer_install_dir ]]; then
+		echo reinstalling geezer at $geezer_install_dir
+	else
+		echo installing geezer at $geezer_install_dir
+		mkdir -p $geezer_install_dir || exit -1
+	fi
+	# copy scripts to the install
+	cp -R * $geezer_install_dir/
+else
+	echo "skipped ($REPLY)"
+fi
+
+# install packages
+read -p "Update packages? [Y/n]" -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+	echo updating package database...
 	pacman -Sy
-	# upgrade any out-of-date packages
+
+	echo upgrading out-of-date packages...
 	pacman -Su
 
 	# add handy utilities
-	base_packages="\
-		dos2unix\
-		htop\
-		p7zip\
-		tree\
-		vim\
-	"
+	echo installing base packages...
+	pacman -S --needed --noconfirm $geezer_base_packages
 
-	pacman -S --needed --noconfirm $base_packages
-
-	# remove any packages which are no longer installed from the cache
+	echo removing packages no longer needed from the cache
 	pacman -Sc --noconfirm
 fi
 
+# configure timezone
 read -p "Set timezone? [y/N]" -n 1 -r
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
+if [[ $REPLY =~ ^[Yy]$ ]]; then
 	# set the system timezone
 	echo Setting timezone to America/Vancouver
 	rm -f /etc/localtime
@@ -54,8 +74,7 @@ fi
 # configure hostname
 read -p "Set hostname? [y/N]" -n 1 -r
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
+if [[ $REPLY =~ ^[Yy]$ ]]; then
 	# read a new host name from the user
 	echo -n Current hostname:
 	cat /etc/hostname
@@ -69,8 +88,7 @@ fi
 # configure Wifi
 read -p "Configure Wifi? [y/N]" -n 1 -r
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
+if [[ $REPLY =~ ^[Yy]$ ]]; then
 	# create a connection profile
 	wifi-menu
 	# attempt to get the name of the new profile (ugly, fails if it already exists or if there are multiple)
@@ -79,11 +97,49 @@ then
 	netctl enable $network_name
 fi
 
+# configure sudo
+read -p "Configure sudo? [y/N]" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	# TODO
+	# configure sudo
+	# - create an sudo group
+	# - add sudo group to /etc/sudoers file
+	# if the last step MUST use visudo this may be a challenge to automate correctly
+	# - but could back it up, check, and then replace
+	# - add wheel to sudoers
+	# - disable root login
+	# - create an admin user
+	echo not implemented
+fi
+
+# configure bash
+if [[ ! -e $geezer_install_dir/bash.bashrc.backup ]]; then
+	read -p "Configure bash? [Y/n]" -n 1 -r
+	echo
+	if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+		echo Backing up original bash.bashrc to geezer install folder
+		cp /etc/bash.bashrc $geezer_install_dir/bash.bashrc.backup
+
+		echo Adding geezer bash settings system level bashrc
+		cat << EOF >> temp.txt
+# Load Geezer bash settings
+if [[ -r $geezer_install_dir/bash.bashrc ]]; then
+	. $geezer_install_dir/bash.bashrc
+fi
+
+EOF
+
+	fi
+else
+	# the backup file exists, assume we've already modified the system scripts
+	echo Bash scripts already configured
+fi
+
 # reboot after completion
 read -p "Reboot now? [y/N]" -n 1 -r
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
+if [[ $REPLY =~ ^[Yy]$ ]]; then
 	reboot
 fi
 
