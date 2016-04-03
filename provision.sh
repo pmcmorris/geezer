@@ -88,6 +88,13 @@ if [[ ! $REPLY =~ ^[Nn]$ ]]; then
 	pacman -Sc --noconfirm
 fi
 
+read -p "Install development packages? [y/N]" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	./devtools.sh
+fi
+
+
 # configure timezone
 read -p "Set timezone? [y/N]" -n 1 -r
 echo

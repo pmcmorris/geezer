@@ -42,5 +42,6 @@ misc_tools="\
 package_list="$build_tools $native_tools $scripting_tools $misc_tools"
 
 # install all the packages
+echo installing development packages...
 pacman -S --needed --noconfirm $package_list
 
