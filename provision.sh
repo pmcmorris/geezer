@@ -46,7 +46,7 @@ fi
 # otherwise it will copy the old version
 skel_bashrc_path=/etc/skel/.bashrc
 backup_bashrc_path="$geezer_install_dir/.bashrc.backup"
-geezer_bashrc_path="$geezer_install_dir/.bashrc"
+geezer_bashrc_path="$geezer_install_dir/bash.bashrc"
 if [[ ! -e $backup_bashrc_path ]]; then
 	read -p "Configure bash? [Y/n]" -n 1 -r
 	echo
@@ -56,6 +56,7 @@ if [[ ! -e $backup_bashrc_path ]]; then
 
 		echo Adding geezer bash settings skeleton bashrc
 		cat << EOF >> $skel_bashrc_path
+
 # Load Geezer bash settings
 if [[ -r $geezer_bashrc_path ]]; then
 	. $geezer_bashrc_path
