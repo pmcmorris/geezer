@@ -41,6 +41,34 @@ if [[ ! $REPLY =~ ^[Nn]$ ]]; then
 	cp -R * $geezer_install_dir/
 fi
 
+# configure bash
+# Note: its important that we modify the skeleton file before creating the admin user account below
+# otherwise it will copy the old version
+skel_bashrc_path=/etc/skel/.bashrc
+backup_bashrc_path="$geezer_install_dir/.bashrc.backup"
+geezer_bashrc_path="$geezer_install_dir/.bashrc"
+if [[ ! -e $backup_bashrc_path ]]; then
+	read -p "Configure bash? [Y/n]" -n 1 -r
+	echo
+	if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+		echo Backing up original bash.bashrc to geezer install folder
+		cp $skel_bashrc_path $backup_bashrc_path
+
+		echo Adding geezer bash settings skeleton bashrc
+		cat << EOF >> $skel_bashrc_path
+# Load Geezer bash settings
+if [[ -r $geezer_bashrc_path ]]; then
+	. $geezer_bashrc_path
+fi
+
+EOF
+
+	fi
+else
+	# the backup file exists, assume we've already modified the system scripts
+	echo Bash scripts already configured
+fi
+
 # install packages
 read -p "Update packages? [Y/n]" -n 1 -r
 echo
@@ -109,29 +137,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	# - disable root login
 	# - create an admin user
 	echo not implemented
-fi
-
-# configure bash
-if [[ ! -e $geezer_install_dir/bash.bashrc.backup ]]; then
-	read -p "Configure bash? [Y/n]" -n 1 -r
-	echo
-	if [[ ! $REPLY =~ ^[Nn]$ ]]; then
-		echo Backing up original bash.bashrc to geezer install folder
-		cp /etc/bash.bashrc $geezer_install_dir/bash.bashrc.backup
-
-		echo Adding geezer bash settings system level bashrc
-		cat << EOF >> /etc/bash.bashrc
-# Load Geezer bash settings
-if [[ -r $geezer_install_dir/bash.bashrc ]]; then
-	. $geezer_install_dir/bash.bashrc
-fi
-
-EOF
-
-	fi
-else
-	# the backup file exists, assume we've already modified the system scripts
-	echo Bash scripts already configured
 fi
 
 # reboot after completion
