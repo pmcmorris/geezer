@@ -39,8 +39,6 @@ if [[ ! $REPLY =~ ^[Nn]$ ]]; then
 	fi
 	# copy scripts to the install
 	cp -R * $geezer_install_dir/
-else
-	echo "skipped ($REPLY)"
 fi
 
 # install packages
@@ -122,7 +120,7 @@ if [[ ! -e $geezer_install_dir/bash.bashrc.backup ]]; then
 		cp /etc/bash.bashrc $geezer_install_dir/bash.bashrc.backup
 
 		echo Adding geezer bash settings system level bashrc
-		cat << EOF >> temp.txt
+		cat << EOF >> /etc/bash.bashrc
 # Load Geezer bash settings
 if [[ -r $geezer_install_dir/bash.bashrc ]]; then
 	. $geezer_install_dir/bash.bashrc
