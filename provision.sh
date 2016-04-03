@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# File: arch_install_base.sh
-# URL: https://github.com/pmcmorris/linux_config/blob/master/arch_install_base.sh
+# File: provision.sh
+# URL: https://github.com/pmcmorris/linux_config/blob/master/provision.sh
 # License: CC0 - Public Domain - No warranty is offered or implied; use this code at your own risk
 # Author: Patrick McMorris
 
