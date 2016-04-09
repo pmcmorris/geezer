@@ -131,6 +131,14 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	netctl enable $network_name
 fi
 
+# rename the default "alarm" user account to something useful
+read -p "Change default account name? [y/N]" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	read -p "set admin username: "
+	usermod -l alarm $REPLY
+fi
+
 # configure sudo
 read -p "Configure sudo? [y/N]" -n 1 -r
 echo
@@ -143,7 +151,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	# - but could back it up, check, and then replace
 	# - add wheel to sudoers
 	# - disable root login
-	# - create an admin user
 	echo not implemented
 fi
 
